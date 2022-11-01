@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#263238</color>
+    <color name="colorPrimaryDark">#014a62</color>
+    <color name="colorAccent">#00796B</color>
+    <color name="light_gray">#dbdbdb</color>
+    <color name="gray">#7e7e7e</color>
+    <color name="semi_gray">#979797</color>
+    <color name="dark_gray">#696969</color>
+    <color name="gray_e5">#e5e5e5</color>
+    <color name="bg_color">#f7f7f7</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="white2">#e5e5e5</color>
+    <color name="black_effective">#2a2a2a</color>
+    <color name="shadow">#d0d8dc</color>
+    <color name="transparent">#00000000</color>
+    <color name="translucent_white">#88ffffff</color>
+    <color name="fb">#3b5998</color>
+    <color name="google">#d34836</color>
+
+    <!--Time Module-->
+    <color name="black_blue_primary">#0e313c</color>
+
+    <!--Design colors-->
+    <color name="red_dark">#F06423</color>
+    <color name="red_dark2">#D85A1B</color>
+    <color name="cyan_light">#c9ebee</color>
+    <color name="cyan">#b5e3e7</color>
+    <color name="cyan_dark">#70BDC6</color>
+    <color name="navy_blue">#214258</color>
+    <color name="navy_blue_dark">#1C3A4E</color>
+    <color name="light_green">#78DC96</color>
+    <color name="light_blue">#55C8F0</color>
+    <color name="blue_black_dark">#13171d</color>
+    <color name="blue_black_light">#516179</color>
+    <color name="blue_grey_light">#A5B4C8</color>
+    <color name="green">#388E3C</color>
+    <color name="orange">#ffa000</color>
+    <color name="yellow">#FFEB3B</color>
+
+    <color name="grey_50">#FAFAFA</color>
+    <color name="grey_100">#F5F5F5</color>
+    <color name="grey_200">#EEEEEE</color>
+    <color name="grey_300">#E0E0E0</color>
+    <color name="grey_400">#BDBDBD</color>
+    <color name="grey_500">#9E9E9E</color>
+    <color name="grey_600">#757575</color>
+    <color name="grey_700">#616161</color>
+    <color name="grey_800">#424242</color>
+    <color name="grey_900">#212121</color>
+    <color name="grey_1000">#1a1a1a</color>
+
+    <color name="blue">#4a90e2</color>
+    <color name="blue_grey_50">#ECEFF1</color>
+    <color name="blue_grey_100">#CFD8DC</color>
+    <color name="blue_grey_200">#B0BEC5</color>
+    <color name="blue_grey_300">#90A4AE</color>
+    <color name="blue_grey_400">#78909C</color>
+    <color name="blue_grey_500">#607D8B</color>
+    <color name="blue_grey_600">#546E7A</color>
+    <color name="blue_grey_700">#455A64</color>
+    <color name="blue_grey_800">#37474F</color>
+    <color name="blue_grey_900">#263238</color>
+
+    <color name="red_50">#FFEBEE</color>
+    <color name="red_100">#FFCDD2</color>
+    <color name="red_200">#EF9A9A</color>
+    <color name="red_300">#E57373</color>
+    <color name="red_400">#EF5350</color>
+    <color name="red_500">#F44336</color>
+    <color name="red_600">#E53935</color>
+    <color name="red_700">#D32F2F</color>
+    <color name="red_800">#C62828</color>
+    <color name="red_900">#B71C1C</color>
+    <color name="red_A100">#FF8A80</color>
+    <color name="red_A200">#FF5252</color>
+    <color name="red_A400">#FF1744</color>
+    <color name="red_A700">#D50000</color>
+
+    <color name="primaryLightColor">#cfd8dc</color>
+    <color name="primaryTextColor">#014a62</color>
+    <color name="secondaryTextGray">#aaaaaa</color>
+    <color name="secondaryTextBlueGray">#607d8b</color>
+
+    <color name="white_dark">#EBEEF7</color>
+
+
+    <color name="selector_item_color">@color/primaryTextColor</color>
+    <color name="text_selector_item_color">@color/primaryTextColor</color>
+    <color name="text_selector_item_color2">#5F92A5</color>
+
+    <color name="secondaryColor">#455a64</color>
+    <color name="secondaryLightColor">#718792</color>
+    <color name="secondaryDarkColor">#1c313a</color>
+    <color name="blue_sky">#039be5</color>
+    <color name="deep_teal">#014a62</color>
+    <color name="deep_teal_50">#80014A62</color>
+    <color name="smoth_grey">#f7f8f9</color>
+    <color name="brownish_grey">#656565</color>
+    <color name="warm_grey">#8a8a8a</color>
+    <color name="disabled_grey">#a8a8a8</color>
+    <color name="dark_teal">#003d51</color>
+
+    <color name="pale_grey_2">#f7f8f9</color>
+    <color name="pale_grey">#eff2f4</color>
+    <color name="azure">#039be5</color>
+    <color name="azure_50">#80039BE5</color>
+    <color name="rating_off">#dbdbdb</color>
+    <color name="teal_blue">#007fb2</color>
+    <color name="greyish">#a9a8a8</color>
+    <color name="hint">#C2C2C2</color>
+    <color name="leafyGreen">#41c747</color>
+    <color name="nasty_green">#7cb73a</color>
+    <color name="watermelon">#ef4d5e</color>
+    <color name="orange_yellow">#ffa000</color>
+    <color name="mid_green">#4caf50</color>
+    <color name="sepia">#a35a31</color>
+    <color name="deep_lavender">#874caf</color>
+    <color name="medium_pink">#f04ba0</color>
+    <color name="silver">#cecfd0</color>
+    <color name="white_three">#fdfdfd</color>
+
+    <!-- Open Chat -->
+    <color name="openChatText">#47505d</color>
+    <color name="openChatNicknameOther">#3a414d</color>
+    <color name="openChatNicknameMe">#00BCD4</color>
+
+    <!-- Group Chat -->
+    <color name="groupChatBubbleMe">#774df2</color>
+    <color name="groupChatTextMe">#ffffff</color>
+    <color name="groupChatBubbleOther">#eef1f6</color>
+    <color name="groupChatTextOther">#000000</color>
+
+    <color name="groupChatReadReceiptMe">#1fcc94</color>
+    <color name="groupChatReadReceiptOther">#00BCD4</color>
+
+    <color name="groupChatAdminBackground">#e0fcff</color>
+    <color name="groupChatAdminText">#39474e</color>
+
+    <color name="groupChatDateText">#ffffff</color>
+    <color name="groupChatDateBackground">#C0C0C0</color>
+
+    <!-- Group Channel List -->
+    <color name="groupChannelUnreadCountBackground">#7d62df</color>
+    <color name="groupChannelUnreadCountText">#ffffff</color>
+
+    <!-- Selector -->
+    <color name="btn_create">#ffffff</color>
+    <color name="btn_create_disabled">#c1acff</color>
+    <color name="btn_edit">#ffffff</color>
+    <color name="btn_edit_disabled">#c1acff</color>
+    <color name="btn_send">#774df2</color>
+    <color name="btn_send_disabled">#8e8e8e</color>
+    <color name="gunMetal">#4d4f5c</color>
+    <color name="charcoal_grey">#373e41</color>
+    <color name="slate_grey">#656a6d</color>
+    <color name="ripple_color">@color/grey_300</color>
+    <color name="ripple_color_dark">@color/grey_500</color>
+    <color name="ripple_color_light">@color/grey_50</color>
+    <color name="place_holder_header">#707070</color>
+    <color name="placeholder_bg">@color/grey_400</color>
+    <color name="shimmer_stroke">@color/grey_200</color>
+    <color name="shimmer_1">@color/grey_400</color>
+    <color name="shimmer_2">@color/grey_300</color>
+
+
+    <!--<color name="placeholder_bg">#FFFF8800</color>-->
+
+    <color name="sentiment_green">#67C542</color>
+    <color name="sentiment_yellow">#FFBA00</color>
+    <color name="sentiment_red">#F1002A</color>
+</resources>

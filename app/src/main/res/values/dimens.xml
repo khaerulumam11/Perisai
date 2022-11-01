@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="space_30dp">30dp</dimen>
+    <dimen name="space_16dp">16dp</dimen>
+    <dimen name="content_margin">16dp</dimen>
+    <dimen name="register_btn_r">6dp</dimen>
+    <dimen name="space_6dp">6dp</dimen>
+    <dimen name="space_8dp">8dp</dimen>
+</resources>
