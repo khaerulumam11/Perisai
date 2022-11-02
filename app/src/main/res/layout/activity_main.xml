@@ -14,7 +14,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/deep_lavender"
+        app:cardBackgroundColor="#6C71FF"
         app:cardCornerRadius="5dp"
         app:cardElevation="2dp">
         <LinearLayout
@@ -48,7 +48,7 @@
                     android:layout_gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:src="@drawable/ic_user_"/>
             </LinearLayout>
         </LinearLayout>
@@ -61,7 +61,7 @@
         android:layout_margin="10dp"
         app:cardElevation="3dp"
         app:cardCornerRadius="8dp"
-        app:cardBackgroundColor="@color/medium_pink">
+        app:cardBackgroundColor="#E10036">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -85,7 +85,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             app:cardElevation="3dp"
-            app:cardBackgroundColor="@color/medium_pink"
+            app:cardBackgroundColor="#F6416C"
             android:padding="8dp">
             <TextView
                 android:layout_width="match_parent"
@@ -100,15 +100,20 @@
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="300dp"
             android:padding="10dp"
             android:layout_margin="10dp"
             app:cardElevation="3dp"
             android:id="@+id/cardSafeHouse"
             app:cardCornerRadius="8dp"
-            app:cardBackgroundColor="@color/medium_pink">
+            >
             <LinearLayout
-                android:layout_gravity="bottom"
+                android:gravity="bottom"
+                android:background="@drawable/peta_safehouse"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -116,8 +121,9 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="200dp"
                     android:layout_marginLeft="10dp"
+                    android:layout_gravity="bottom"
                     android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@color/deep_lavender"
+                    app:cardBackgroundColor="#6C71FF"
                     app:cardCornerRadius="15dp">
                     <LinearLayout
                         android:padding="15dp"
@@ -140,7 +146,7 @@
                             android:textStyle="bold"/>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
-
+            </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -151,7 +157,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             android:layout_gravity="center"
-            app:cardBackgroundColor="@color/deep_lavender"
+            app:cardBackgroundColor="#6C71FF"
             app:cardElevation="5dp">
             <LinearLayout
                 android:padding="10dp"
