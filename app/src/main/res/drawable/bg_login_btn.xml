@@ -6,13 +6,13 @@
     <item>
         <shape android:shape="rectangle">
             <solid android:color="@color/deep_teal" />
-            <corners android:radius="@dimen/register_btn_r" />
+            <corners android:radius="5dp" />
         </shape>
     </item>
 
     <item>
         <ripple
-            android:exitFadeDuration="@android:integer/config_shortAnimTime"
+            android:exitFadeDuration="100"
             android:color="@color/ripple_color"
             tools:targetApi="lollipop">
 
@@ -21,7 +21,7 @@
                 tools:targetApi="lollipop">
                 <shape android:shape="rectangle">
                     <solid android:color="@color/ripple_color" />
-                    <corners android:radius="9dp"/>
+                    <corners android:radius="5dp"/>
 
                 </shape>
             </item>
