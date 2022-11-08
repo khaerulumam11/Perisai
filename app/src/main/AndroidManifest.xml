@@ -19,6 +19,20 @@
         android:theme="@style/Theme.PerisaiJava"
         tools:targetApi="31">
         <activity
+            android:name=".MapsAllActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".AlarmInfoActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".MapsActivity"
             android:exported="false" />
         <activity

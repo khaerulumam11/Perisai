@@ -58,6 +58,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/btnPanic"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:padding="10dp"
@@ -92,6 +93,7 @@
         </FrameLayout>
     </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
+            android:id="@+id/btnInfoPanic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="5dp"

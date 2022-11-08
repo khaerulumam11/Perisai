@@ -8,6 +8,7 @@ import android.location.Location
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import co.id.perisaijava.databinding.ActivityMainBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.location.*
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -33,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     private var locationCallback: LocationCallback? = null
     private val LOCATION_REQUEST: Int = 1340
     private var geoCoder: Geocoder?=null
+    private var dialogLayout: BottomSheetDialog?=null
     private lateinit var activityMainActivity: ActivityMainBinding
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +60,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        showDialog()
         if (canAccessLocation()) {
             loadLocationNow()
         }
@@ -67,6 +71,15 @@ class MainActivity : AppCompatActivity() {
         activityMainActivity.cardSafeHouse.setOnClickListener {
             var pindah = Intent(this@MainActivity,MapsActivity::class.java)
             startActivity(pindah)
+        }
+
+        activityMainActivity.btnPanic.setOnClickListener {
+            var pindah = Intent(this@MainActivity,AlarmInfoActivity::class.java)
+            startActivity(pindah)
+        }
+
+        activityMainActivity.btnInfoPanic.setOnClickListener {
+            dialogLayout!!.show()
         }
     }
 
@@ -96,6 +109,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun showDialog() {
+
+        dialogLayout= BottomSheetDialog(this)
+        dialogLayout!!.setContentView(R.layout.dialog_panic_button_info)
+        val btnClose= dialogLayout!!.findViewById<ImageView>(R.id.btnClose)
+        btnClose?.setOnClickListener {
+            dialogLayout!!.hide()
+        }
+    }
     private fun loadLocationNow() {
         if (ActivityCompat.checkSelfPermission(
                 this@MainActivity,
