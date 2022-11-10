@@ -81,6 +81,15 @@ class MainActivity : AppCompatActivity() {
         activityMainActivity.btnInfoPanic.setOnClickListener {
             dialogLayout!!.show()
         }
+
+        activityMainActivity.homeBtn.setOnClickListener {
+            var pindah = Intent(this@MainActivity, MainActivity::class.java)
+            startActivity(pindah)
+        }
+        activityMainActivity.profileBtn.setOnClickListener {
+            var pindah = Intent(this@MainActivity, ProfileActivity::class.java)
+            startActivity(pindah)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
