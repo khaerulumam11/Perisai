@@ -1,10 +1,13 @@
 package co.id.perisaijava
 
 import android.Manifest
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
-import android.location.Location
+import android.media.MediaPlayer
+import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -14,6 +17,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import co.id.perisaijava.databinding.ActivityMainBinding
+import co.id.perisaijava.service.AlarmReceiver
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.location.*
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -37,12 +41,15 @@ class MainActivity : AppCompatActivity() {
     private var geoCoder: Geocoder?=null
     private var dialogLayout: BottomSheetDialog?=null
     private lateinit var activityMainActivity: ActivityMainBinding
+    var pendingIntent: PendingIntent? = null
+    var alarmManager: AlarmManager? = null
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityMainActivity = ActivityMainBinding.inflate(layoutInflater)
         geoCoder = Geocoder(this, Locale.getDefault())
         setContentView(activityMainActivity.root)
+        alarmManager = application.getSystemService(ALARM_SERVICE) as AlarmManager?;
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         locationRequest = LocationRequest.create()
         locationRequest!!.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
@@ -74,6 +81,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         activityMainActivity.btnPanic.setOnClickListener {
+//            setAlarmNow()
             var pindah = Intent(this@MainActivity,AlarmInfoActivity::class.java)
             startActivity(pindah)
         }
@@ -90,6 +98,18 @@ class MainActivity : AppCompatActivity() {
             var pindah = Intent(this@MainActivity, ProfileActivity::class.java)
             startActivity(pindah)
         }
+    }
+
+    private fun setAlarmNow() {
+        val mediaPlayer = MediaPlayer.create(this, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM))
+        mediaPlayer.start()
+//        val dat = Date()
+//        val cal_now = Calendar.getInstance()
+//        cal_now.setTime(dat);
+//        val myIntent = Intent(this@MainActivity, AlarmReceiver::class.java)
+//        pendingIntent = PendingIntent.getBroadcast(this@MainActivity, 1, myIntent, 0)
+//
+//        alarmManager!!.set(AlarmManager.RTC_WAKEUP, cal_now.getTimeInMillis(), pendingIntent)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
