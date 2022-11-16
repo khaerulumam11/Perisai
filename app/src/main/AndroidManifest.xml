@@ -19,6 +19,7 @@
         android:roundIcon="@drawable/final_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.PerisaiJava"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
             android:name=".ProfileActivity"

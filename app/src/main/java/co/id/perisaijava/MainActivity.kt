@@ -11,16 +11,23 @@ import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import co.id.perisaijava.databinding.ActivityMainBinding
-import co.id.perisaijava.service.AlarmReceiver
+import co.id.perisaijava.util.Server
+import com.androidnetworking.AndroidNetworking
+import com.androidnetworking.common.Priority
+import com.androidnetworking.error.ANError
+import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.location.*
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import org.json.JSONException
+import org.json.JSONObject
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -43,6 +50,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var activityMainActivity: ActivityMainBinding
     var pendingIntent: PendingIntent? = null
     var alarmManager: AlarmManager? = null
+    var handler: Handler = Handler()
+    var refresh: Runnable? = null
+    var idUser =""
+    var nameUser =""
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,6 +86,13 @@ class MainActivity : AppCompatActivity() {
             requestPermissions(LOCATION_PERMS, LOCATION_REQUEST)
         }
         loadDataProfile()
+        if (idUser.isNotEmpty()) {
+            refresh = Runnable { // Do something
+                checkLocation(idUser)
+                handler.postDelayed(refresh!!, 50000)
+            }
+            handler.post(refresh!!)
+        }
         activityMainActivity.cardSafeHouse.setOnClickListener {
             var pindah = Intent(this@MainActivity,MapsActivity::class.java)
             startActivity(pindah)
@@ -82,8 +100,9 @@ class MainActivity : AppCompatActivity() {
 
         activityMainActivity.btnPanic.setOnClickListener {
 //            setAlarmNow()
-            var pindah = Intent(this@MainActivity,AlarmInfoActivity::class.java)
-            startActivity(pindah)
+            if (idUser.isNotEmpty() && nameUser.isNotEmpty()) {
+                createComplaint()
+            }
         }
 
         activityMainActivity.btnInfoPanic.setOnClickListener {
@@ -98,6 +117,32 @@ class MainActivity : AppCompatActivity() {
             var pindah = Intent(this@MainActivity, ProfileActivity::class.java)
             startActivity(pindah)
         }
+    }
+
+    private fun createComplaint() {
+        AndroidNetworking.post(Server.ENDPOINT_CREATE_COMPLAINT)
+            .addBodyParameter("id", idUser)
+            .addBodyParameter("name", nameUser)
+            .addBodyParameter("lat", wayLatitude.toString())
+            .addBodyParameter("lng", wayLongitude.toString())
+            .setPriority(Priority.MEDIUM)
+            .build()
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject) {
+//                        setIsLoading(false);
+                    println("Response $response")
+                    if (response.getString("message").equals("success",ignoreCase = true)) {
+                        var pindah = Intent(this@MainActivity, AlarmInfoActivity::class.java)
+                        startActivity(pindah)
+                    } else {
+                        println("Create Complaint Failed")
+                    }
+                }
+
+                override fun onError(anError: ANError) {
+                    println("Erorr " + anError.message)
+                }
+            })
     }
 
     private fun setAlarmNow() {
@@ -135,6 +180,32 @@ class MainActivity : AppCompatActivity() {
             } else {
                 requestPermissions(LOCATION_PERMS, LOCATION_REQUEST)
             }
+        }
+    }
+
+    private fun distance(
+        lat1: Double,
+        lon1: Double,
+        lat2: Double,
+        lon2: Double,
+        unit: String
+    ): Double {
+         if (lat1 == lat2 && lon1 == lon2) {
+             return  0.0
+        } else {
+            val theta = lon1 - lon2
+            var dist = Math.sin(Math.toRadians(lat1)) * Math.sin(Math.toRadians(lat2)) + Math.cos(
+                Math.toRadians(lat1)
+            ) * Math.cos(Math.toRadians(lat2)) * Math.cos(Math.toRadians(theta))
+            dist = Math.acos(dist)
+            dist = Math.toDegrees(dist)
+            dist = dist * 60 * 1.1515
+            if (unit == "K") {
+                dist = dist * 1.609344
+            } else if (unit == "N") {
+                dist = dist * 0.8684
+            }
+             return dist
         }
     }
 
@@ -236,9 +307,71 @@ class MainActivity : AppCompatActivity() {
             val personEmail = acct.email
             val personId = acct.id
             val personPhoto: Uri? = acct.photoUrl
+            idUser = acct.id.toString()
+            nameUser = acct.displayName.toString()
 
             activityMainActivity.txtName.text = "Halo, $personName"
             activityMainActivity.avatar.setImageURI(personPhoto)
+            checkLocation(personId)
         }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadDataProfile()
+    }
+
+    private fun checkLocation(id:String?) {
+        AndroidNetworking.post(Server.ENDPOINT_GET_DETAIL_USER + id)
+            .setPriority(Priority.HIGH)
+            .build()
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject) {
+//                        setIsLoading(false);
+                    println("Response $response")
+                    try {
+                        if (!response.getString("lat").equals(wayLatitude.toString()) || !response.getString("lng").equals(wayLongitude.toString())){
+                            updateLocation(id)
+                        }
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                }
+
+                override fun onError(anError: ANError) {
+                    println("Erorr Login")
+                }
+            })
+    }
+
+    private fun updateLocation(id: String?) {
+        AndroidNetworking.post(Server.ENDPOINT_UPDATE_LOCATION + id)
+            .addBodyParameter("lat", wayLatitude.toString())
+            .addBodyParameter("lng", wayLongitude.toString())
+            .setPriority(Priority.MEDIUM)
+            .build()
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject) {
+//                        setIsLoading(false);
+                    try {
+                        if (response.getString("message").equals("success", ignoreCase = true)) {
+                            println("Response $response")
+                        } else {
+                            Toast.makeText(
+                                this@MainActivity,
+                                "Update Location Failed",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                }
+
+                override fun onError(anError: ANError) {
+                    println("Erorr " + anError.message)
+                }
+            })
     }
 }
