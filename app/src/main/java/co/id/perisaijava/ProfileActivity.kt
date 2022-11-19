@@ -7,11 +7,17 @@ import android.location.Geocoder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import co.id.perisaijava.databinding.ActivityProfileBinding
+import co.id.perisaijava.util.Server
+import com.androidnetworking.AndroidNetworking
+import com.androidnetworking.common.Priority
+import com.androidnetworking.error.ANError
+import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -22,6 +28,8 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.OnCompleteListener
+import org.json.JSONException
+import org.json.JSONObject
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -42,6 +50,7 @@ class ProfileActivity : AppCompatActivity(), OnMapReadyCallback {
     private var locationRequest: LocationRequest? = null
     private var locationCallback: LocationCallback? = null
     private val LOCATION_REQUEST: Int = 1340
+    var idUser=""
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,6 +89,25 @@ class ProfileActivity : AppCompatActivity(), OnMapReadyCallback {
             signOut()
         }
 
+        activityProfileBinding.btnEditProfile.setOnClickListener {
+            activityProfileBinding.lyBtnProfil.visibility = View.GONE
+            activityProfileBinding.etPhone.visibility = View.GONE
+            activityProfileBinding.lyEditProfil.visibility = View.VISIBLE
+            activityProfileBinding.etPhoneEdit.visibility = View.VISIBLE
+        }
+
+        activityProfileBinding.btnCancel.setOnClickListener {
+            getDataUser(idUser)
+            activityProfileBinding.lyBtnProfil.visibility = View.VISIBLE
+            activityProfileBinding.etPhone.visibility = View.VISIBLE
+            activityProfileBinding.lyEditProfil.visibility = View.GONE
+            activityProfileBinding.etPhoneEdit.visibility = View.GONE
+        }
+
+        activityProfileBinding.btnSubmit.setOnClickListener {
+            updatePhone()
+        }
+
         activityProfileBinding.homeBtn.setOnClickListener {
             var pindah = Intent(this@ProfileActivity, MainActivity::class.java)
             startActivity(pindah)
@@ -88,6 +116,40 @@ class ProfileActivity : AppCompatActivity(), OnMapReadyCallback {
             var pindah = Intent(this@ProfileActivity, ProfileActivity::class.java)
             startActivity(pindah)
         }
+    }
+
+    private fun updatePhone() {
+        AndroidNetworking.post(Server.ENDPOINT_UPDATE_PHONE + idUser)
+            .addBodyParameter("telp", activityProfileBinding.etPhoneEdit.text.toString())
+            .setPriority(Priority.MEDIUM)
+            .build()
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject) {
+//                        setIsLoading(false);
+                    try {
+                        if (response.getString("message").equals("success", ignoreCase = true)) {
+                            println("Response $response")
+                            getDataUser(idUser)
+                            activityProfileBinding.lyBtnProfil.visibility = View.VISIBLE
+                            activityProfileBinding.etPhone.visibility = View.VISIBLE
+                            activityProfileBinding.lyEditProfil.visibility = View.GONE
+                            activityProfileBinding.etPhoneEdit.visibility = View.GONE
+                        } else {
+                            Toast.makeText(
+                                this@ProfileActivity,
+                                "Update Phone Failed",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                }
+
+                override fun onError(anError: ANError) {
+                    println("Erorr " + anError.message)
+                }
+            })
     }
 
     private fun isUserSignedIn(): Boolean {
@@ -242,7 +304,9 @@ class ProfileActivity : AppCompatActivity(), OnMapReadyCallback {
             val personEmail = acct.email
             val personId = acct.id
             val personPhoto: Uri? = acct.photoUrl
+            idUser = acct.id.toString()
 
+            getDataUser(idUser)
             activityProfileBinding.txtName.text = "Halo, $personName"
             activityProfileBinding.avatar.setImageURI(personPhoto)
             activityProfileBinding.etName.setText( personName.toString())
@@ -250,6 +314,27 @@ class ProfileActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    private fun getDataUser(id:String?) {
+        AndroidNetworking.post(Server.ENDPOINT_GET_DETAIL_USER + id)
+            .setPriority(Priority.HIGH)
+            .build()
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject) {
+//                        setIsLoading(false);
+                    println("Response $response")
+                    try {
+                        activityProfileBinding.etPhone.setText(response.getString("telepon"))
+                        activityProfileBinding.etPhoneEdit.setText(response.getString("telepon"))
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                }
+
+                override fun onError(anError: ANError) {
+                    println("Erorr Login")
+                }
+            })
+    }
     fun getGoogleSinginClient() : GoogleSignInClient {
         /**
          * Configure sign-in to request the user's ID, email address, and basic

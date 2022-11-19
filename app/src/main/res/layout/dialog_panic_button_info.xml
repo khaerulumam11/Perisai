@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="5dp"
                 android:justificationMode="inter_word"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"
+                android:text="anic button dapat membantu kalian melindungi diri lho! Dengan menekan panic button maka akan memunculkan bunyi alarm dari HP kalian sehingga teman-teman sekitar dapat mengetahui keberadaan kalian!"
                 android:textSize="18sp"
                 android:textColor="@color/white"/>
             <LinearLayout

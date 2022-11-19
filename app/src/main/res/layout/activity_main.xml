@@ -142,23 +142,23 @@
                     app:cardBackgroundColor="#6C71FF"
                     app:cardCornerRadius="15dp">
                     <LinearLayout
-                        android:padding="15dp"
+                        android:padding="8dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="Peta Safehouse"
+                            android:text="Peta PERISAI"
                             android:textColor="@color/white"
-                            android:textSize="20dp"
+                            android:textSize="16dp"
                             android:textStyle="bold"/>
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="Lorem Ipsum"
+                            android:text="Jangan takut! Lihat disini untuk mencari bantuan terdekat"
                             android:textColor="@color/white"
-                            android:textSize="15dp"
+                            android:textSize="12dp"
                             android:textStyle="bold"/>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>

@@ -9,6 +9,7 @@ import android.graphics.Canvas
 import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +17,8 @@ import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import co.id.perisaijava.databinding.ActivityMapsAllBinding
+import co.id.perisaijava.model.SafehouseModel
+import com.bumptech.glide.Glide
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -37,7 +40,7 @@ class MapsAllActivity : AppCompatActivity() , OnMapReadyCallback, OnMarkerClickL
         Manifest.permission.ACCESS_FINE_LOCATION
     )
     private var geoCoder: Geocoder?=null
-    private var listLatLng = mutableListOf<LatLng>()
+    private var listLatLng = mutableListOf<SafehouseModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityMapsAllBinding = ActivityMapsAllBinding.inflate(layoutInflater)
@@ -48,10 +51,9 @@ class MapsAllActivity : AppCompatActivity() , OnMapReadyCallback, OnMarkerClickL
             .findFragmentById(R.id.map) as SupportMapFragment?)!!
         mapFragment!!.getMapAsync(this)
         showDialog()
-        listLatLng.add(LatLng(-7.328712, 110.510710))
-        listLatLng.add(LatLng(-7.328257, 110.505658))
-        listLatLng.add(LatLng(-7.3303195,110.5034887))
-        listLatLng.add(LatLng(-7.335622, 110.503820))
+        listLatLng.add(0,SafehouseModel("KPI Salatiga",LatLng(-7.339747616448067, 110.51723166702338),"Jl. Tritis Sari, Sidorejo Kidul, Kec. Tingkir, Kota Salatiga, Jawa Tengah 50741","https://drive.google.com/file/d/1HowRQtBETpZcbQAOVWRvQaGIw5D-td1o/view?usp=share_link"))
+        listLatLng.add(0,SafehouseModel("Polres Salatiga",LatLng(-7.3296281492705875, 110.49978621779775),"Jl. Adisucipto, Kalicacing, Kec. Sidomukti, Kota Salatiga, Jawa Tengah 50711","https://drive.google.com/file/d/1bS2SIwukA0KJ6ajeWZjjT8NNKw5KluBt/view?usp=share_link"))
+        listLatLng.add(0,SafehouseModel("DP3APPKB Salatiga",LatLng(-7.346581204384676, 110.49073779284778),"Jl. Hasanudin No.110 B Kota Salatiga, Jawa Tengah, 50721","https://drive.google.com/file/d/152tNuBWhIFr2H0JtGTzLhQQjKqTxG2GI/view?usp=share_link"))
         activityMapsAllBinding.toolbar.setTitle(resources.getString(R.string.safehosue))
         activityMapsAllBinding.toolbar.setNavigationIcon(R.drawable.ic_baseline_chevron_left_grey_24)
         activityMapsAllBinding.toolbar.setNavigationOnClickListener {
@@ -70,7 +72,7 @@ class MapsAllActivity : AppCompatActivity() , OnMapReadyCallback, OnMarkerClickL
         for (i in  0 until listLatLng.size) {
 
             var marker :Marker?=null
-            marker = googleMap!!.addMarker(MarkerOptions().position(listLatLng.get(i)).title("Safehouse #" + (i+1)).icon(BitmapFromVector(this@MapsAllActivity,R.drawable.ic_baseline_home_pink_24)))
+            marker = googleMap!!.addMarker(MarkerOptions().position(listLatLng.get(i).latLng).title(listLatLng.get(i).name).icon(BitmapFromVector(this@MapsAllActivity,R.drawable.ic_baseline_home_pink_24)))
             marker.tag = i
             // below line is use to add marker to each location of our array list.
 
@@ -78,7 +80,7 @@ class MapsAllActivity : AppCompatActivity() , OnMapReadyCallback, OnMarkerClickL
             googleMap.animateCamera(CameraUpdateFactory.zoomTo(18.0f))
 
             // below line is use to move our camera to the specific location.
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(listLatLng.get(i),15f))
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(listLatLng.get(i).latLng,15f))
         }
 
         maps!!.setOnMarkerClickListener(this)
@@ -119,16 +121,29 @@ class MapsAllActivity : AppCompatActivity() , OnMapReadyCallback, OnMarkerClickL
     override fun onMarkerClick(marker: Marker?): Boolean {
         for (i in  0 until listLatLng.size) {
             if (marker!!.tag == i){
-                openDialog(i)
+                showDetailMap(i)
+//                openDialog(i)
             }
         }
         return false
     }
 
+    private fun showDetailMap(i: Int) {
+        activityMapsAllBinding.lyDetail.visibility = View.VISIBLE
+        activityMapsAllBinding.txtTitle.text = listLatLng.get(i).name
+        Glide.with(this@MapsAllActivity).load(listLatLng.get(i).foto).circleCrop().into(activityMapsAllBinding.imgSafehouse!!)
+        activityMapsAllBinding.btnDirection.setOnClickListener {
+            getDirection(i)
+        }
+        loadLocationNow(i)
+    }
+
     private fun openDialog(i: Int) {
         val txtTitle= dialogLayout!!.findViewById<TextView>(R.id.txtTitle)
-        txtTitle!!.text = "Safehouse Warga #"+(i+1)
+        txtTitle!!.text = listLatLng.get(i).name
         val btnDirection= dialogLayout!!.findViewById<CardView>(R.id.btnDirection)
+        val image = dialogLayout!!.findViewById<ImageView>(R.id.imgSafehouse)
+        Glide.with(this@MapsAllActivity).load(listLatLng.get(i).foto).circleCrop().into(image!!)
         btnDirection!!.setOnClickListener {
             getDirection(i)
         }
@@ -140,7 +155,7 @@ class MapsAllActivity : AppCompatActivity() , OnMapReadyCallback, OnMarkerClickL
         var latLng:LatLng ?=null
         for (i in  0 until listLatLng.size) {
             if (i == a){
-                latLng = listLatLng[i]
+                latLng = listLatLng[i].latLng
             }
         }
 
@@ -178,14 +193,14 @@ class MapsAllActivity : AppCompatActivity() , OnMapReadyCallback, OnMarkerClickL
                                     if (a == i) {
                                         var addresses =
                                             geoCoder!!.getFromLocation(
-                                                listLatLng.get(i).latitude,
-                                                listLatLng.get(i).longitude,
+                                                listLatLng.get(i).latLng.latitude,
+                                                listLatLng.get(i).latLng.longitude,
                                                 1
                                             );
                                         if (addresses.isEmpty()) {
-                                            dialogLayout!!.findViewById<TextView>(R.id.txtAlamat)!!.setText("Waiting for Location");
+                                            activityMapsAllBinding.txtAlamat!!.setText("Waiting for Location");
                                         } else {
-                                            dialogLayout!!.findViewById<TextView>(R.id.txtAlamat)!!.setText(
+                                            activityMapsAllBinding.txtAlamat!!.setText(
                                                 addresses.get(0).getAddressLine(0)
                                             );
                                         }

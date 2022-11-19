@@ -115,7 +115,7 @@
                 android:lineSpacingExtra="5dp"
                 android:drawableRight="@drawable/ic_baseline_info_white_24"
                 android:layout_gravity="center"
-                android:text="Di Salatiga, Jawa Tengah sejak 2011 terdapat sejumlah safehouses. Ini tempat perlindungan sementara untuk menunggu polisi datang bagi siapapun yang keselamatannya terancam."/>
+                android:text="Di Salatiga, Jawa Tengah, tentunya terdapat banyak instansi yang selalu siap membantu kita dalam keadaan apapun. Jika merasa terancam atau membutuhkan bantuan, dapat langsung mendatangi mereka ya!"/>
 
             <TextView
                 android:layout_marginLeft="20dp"

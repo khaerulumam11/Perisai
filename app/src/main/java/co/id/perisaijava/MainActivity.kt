@@ -78,6 +78,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        println("Jarak : "+distance(-6.96901631084332, 107.62812788523115,-6.966162217330814, 107.63881380588698,"K"))
         showDialog()
         if (canAccessLocation()) {
             loadLocationNow()

@@ -25,11 +25,89 @@
                 app:subtitleTextColor="#000"
                 app:titleTextColor="#4E4E4E"></androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
-        <fragment
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+            <fragment
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/lyDetail"
+                android:visibility="gone"
+                android:layout_gravity="bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                android:padding="16dp"
+                android:layout_margin="15dp">
+                <LinearLayout
+                    android:padding="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/txtTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Safehouse Warga"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"/>
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:id="@+id/imgSafehouse"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_weight="2.5"
+                            android:src="@drawable/safehouse"/>
+
+                        <LinearLayout
+                            android:layout_marginRight="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/txtAlamat"
+                                android:justificationMode="inter_word"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Jl. Dliko Indah X No.133, Blotongan, Kec. Sidorejo, Kota Salatiga, Jawa Tengah 50715"
+                                android:textColor="#2B5749"
+                                android:textSize="12sp" />
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/btnDirection"
+                                android:layout_marginTop="15dp"
+                                android:layout_gravity="bottom|right"
+                                android:layout_width="155dp"
+                                android:layout_height="40dp"
+                                app:cardCornerRadius="20dp"
+                                android:layout_marginBottom="20dp"
+                                android:layout_marginRight="30dp"
+                                app:cardBackgroundColor="#F6416C">
+                                <TextView
+                                    android:textAlignment="center"
+                                    android:padding="10dp"
+                                    android:text="Get Direction"
+                                    android:textSize="14sp"
+                                    android:textColor="@color/white"
+                                    android:textStyle="bold"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"/>
+                            </androidx.cardview.widget.CardView>
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </FrameLayout>
+
 
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
