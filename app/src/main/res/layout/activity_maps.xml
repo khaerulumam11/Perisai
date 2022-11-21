@@ -144,7 +144,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginBottom="20dp"
             android:layout_gravity="center"
-            app:cardBackgroundColor="@color/deep_lavender"
+            app:cardBackgroundColor="#6C71FF"
             app:cardElevation="5dp">
             <LinearLayout
                 android:padding="10dp"

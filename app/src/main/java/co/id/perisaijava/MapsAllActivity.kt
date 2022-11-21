@@ -72,7 +72,7 @@ class MapsAllActivity : AppCompatActivity() , OnMapReadyCallback, OnMarkerClickL
         for (i in  0 until listLatLng.size) {
 
             var marker :Marker?=null
-            marker = googleMap!!.addMarker(MarkerOptions().position(listLatLng.get(i).latLng).title(listLatLng.get(i).name).icon(BitmapFromVector(this@MapsAllActivity,R.drawable.ic_baseline_home_pink_24)))
+            marker = googleMap!!.addMarker(MarkerOptions().position(listLatLng.get(i).latLng!!).title(listLatLng.get(i).name).icon(BitmapFromVector(this@MapsAllActivity,R.drawable.ic_baseline_home_pink_24)))
             marker.tag = i
             // below line is use to add marker to each location of our array list.
 
@@ -193,8 +193,8 @@ class MapsAllActivity : AppCompatActivity() , OnMapReadyCallback, OnMarkerClickL
                                     if (a == i) {
                                         var addresses =
                                             geoCoder!!.getFromLocation(
-                                                listLatLng.get(i).latLng.latitude,
-                                                listLatLng.get(i).latLng.longitude,
+                                                listLatLng.get(i).latLng!!.latitude,
+                                                listLatLng.get(i).latLng!!.longitude,
                                                 1
                                             );
                                         if (addresses.isEmpty()) {
