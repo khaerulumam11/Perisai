@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.media.MediaPlayer
 import android.media.RingtoneManager
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -23,6 +24,7 @@ import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
+import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.location.*
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -53,6 +55,7 @@ class MainActivity : AppCompatActivity() {
     var handler: Handler = Handler()
     var refresh: Runnable? = null
     var idUser =""
+    var conMgr: ConnectivityManager? = null
     var nameUser =""
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,6 +63,7 @@ class MainActivity : AppCompatActivity() {
         activityMainActivity = ActivityMainBinding.inflate(layoutInflater)
         geoCoder = Geocoder(this, Locale.getDefault())
         setContentView(activityMainActivity.root)
+        conMgr = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
         alarmManager = application.getSystemService(ALARM_SERVICE) as AlarmManager?;
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         locationRequest = LocationRequest.create()
@@ -101,9 +105,23 @@ class MainActivity : AppCompatActivity() {
 
         activityMainActivity.btnPanic.setOnClickListener {
 //            setAlarmNow()
-            if (idUser.isNotEmpty() && nameUser.isNotEmpty()) {
-                createComplaint()
+            run {
+                if (conMgr!!.getActiveNetworkInfo() != null && conMgr!!.getActiveNetworkInfo()!!.isAvailable()
+                    && conMgr!!.getActiveNetworkInfo()!!.isConnected()
+                ) {
+                    if (idUser.isNotEmpty() && nameUser.isNotEmpty()) {
+                        createComplaint()
+                    }
+                } else {
+                    var pindah = Intent(this@MainActivity, AlarmInfoActivity::class.java)
+                    startActivity(pindah)
+//                    Toast.makeText(
+//                        applicationContext, "No Internet Connection",
+//                        Toast.LENGTH_LONG
+//                    ).show()
+                }
             }
+
         }
 
         activityMainActivity.btnInfoPanic.setOnClickListener {
@@ -312,7 +330,7 @@ class MainActivity : AppCompatActivity() {
             nameUser = acct.displayName.toString()
 
             activityMainActivity.txtName.text = "Halo, $personName"
-            activityMainActivity.avatar.setImageURI(personPhoto)
+            Glide.with(this).load(personPhoto).placeholder(R.drawable.ic_user_).error(R.drawable.ic_user_).into(activityMainActivity.avatar)
             checkLocation(personId)
         }
 

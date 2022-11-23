@@ -37,6 +37,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
             var pindah = Intent(this@MapsActivity,MapsAllActivity::class.java)
             startActivity(pindah)
         }
+
+        activityMapsBinding.homeBtn.setOnClickListener {
+            var pindah = Intent(this@MapsActivity, MainActivity::class.java)
+            startActivity(pindah)
+        }
+        activityMapsBinding.profileBtn.setOnClickListener {
+            var pindah = Intent(this@MapsActivity, ProfileActivity::class.java)
+            startActivity(pindah)
+        }
     }
 
     private fun loadDataProfile() {

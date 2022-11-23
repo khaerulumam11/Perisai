@@ -1,13 +1,13 @@
 package co.id.perisaijava
 
 import android.content.Context
+import android.media.AudioManager
 import android.media.MediaPlayer
-import android.media.RingtoneManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Vibrator
+import androidx.appcompat.app.AppCompatActivity
 import co.id.perisaijava.databinding.ActivityAlarmInfoBinding
-import co.id.perisaijava.databinding.ActivityMainBinding
+
 
 class AlarmInfoActivity : AppCompatActivity() {
     private lateinit var activityAlarmInfoBinding: ActivityAlarmInfoBinding
@@ -16,7 +16,7 @@ class AlarmInfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         activityAlarmInfoBinding = ActivityAlarmInfoBinding.inflate(layoutInflater)
         setContentView(activityAlarmInfoBinding.root)
-        mediaPlayer = MediaPlayer.create(this, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM))
+        mediaPlayer = MediaPlayer.create(this, R.raw.emergency_alarm)
         setAlarmNow()
 
         activityAlarmInfoBinding.btnOffAlarm.setOnClickListener {
@@ -26,9 +26,18 @@ class AlarmInfoActivity : AppCompatActivity() {
     }
 
     private fun setAlarmNow() {
+        val am = getSystemService(AUDIO_SERVICE) as AudioManager
+
+        am.setStreamVolume(
+            AudioManager.STREAM_MUSIC,
+            am.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
+            0
+        )
         val vibrator = application.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         vibrator.vibrate(4000)
+        mediaPlayer!!.isLooping = true
         mediaPlayer!!.start()
+
     }
 
 }
